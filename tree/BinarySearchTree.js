@@ -177,16 +177,17 @@ class BinarySearchTree {
 		yield node;
 	}
 
+
 	*levelOrderTraversal(root = this.root) {
 		if (!root) {
 			return;
 		}
 
 		let queue = [], node;
-		queue.push(root);				// Queue
+		queue.push(root);							// Queue
 
 		while (queue.length > 0) {
-			node = queue.shift();		// Dequeue
+			node = queue.shift();					// Dequeue
 			yield node;
 			if (node.left) queue.push(node.left);
 			if (node.right) queue.push(node.right);
@@ -196,23 +197,40 @@ class BinarySearchTree {
 
 
 	/**
-	 * Find the depth of a tree node
-	 * @param {*} node The node to find the depth. Default is the root node (depth of the tree)
-	 * @returns The depth of teh node
+	 * Find the height of the tree.
+	 * Height = Number of edges via the longest path between the root node and a leaf nodes.
+	 * @param {*} node The root node from which to calculate the height
+	 * @returns The height of the tree
 	 */
-	depth(node = this.root) {
-		return this._maxDepth(node);
-	}
-
-	_maxDepth(node) {
-		if (node === null) {
+	height(root = this.root) {
+		if (root === null) {
 			return -1;
 		}
 
-		let ldepth = this.depth(node.left);
-		let rdepth = this.depth(node.right);
+		let left_height = this.height(root.left);
+		let right_height = this.height(root.right);
 
-		return (ldepth > rdepth ? ldepth : rdepth) + 1;
+		return (left_height > right_height ? left_height : right_height) + 1;
+	}
+
+
+	/**
+	 * Find the depth of a node.
+	 * @param {*} node The node for finding the depth
+	 * @returns The depth of the node
+	 */
+	depth(node) {
+		if (!node) {
+			return 0;
+		}
+
+		let depth = 0;
+		while (node.parent && node.parent !== node) {
+			node = node.parent;
+			depth++;
+		}
+
+		return depth;
 	}
 
 
@@ -283,11 +301,15 @@ class BinarySearchTree {
 		// Get the middle element and make it root
 		let mid = parseInt((start + end) / 2, 10);
 		let node = nodes[mid];
+		node.parent = null;
 
 		// Using nodes from the InOrder traversal array (sorted order),
 		// construct the left and right subtrees
 		node.left = this._buildTreeFromNodes(nodes, start, mid - 1);
 		node.right = this._buildTreeFromNodes(nodes, mid + 1, end);
+
+		if (node.left) node.left.parent = node;
+		if (node.right) node.right.parent = node;
 
 		return node;
 	}
