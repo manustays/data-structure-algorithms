@@ -177,6 +177,22 @@ class BinarySearchTree {
 		yield node;
 	}
 
+	*levelOrderTraversal(root = this.root) {
+		if (!root) {
+			return;
+		}
+
+		let queue = [], node;
+		queue.push(root);				// Queue
+
+		while (queue.length > 0) {
+			node = queue.shift();		// Dequeue
+			yield node;
+			if (node.left) queue.push(node.left);
+			if (node.right) queue.push(node.right);
+		}
+	}
+
 
 
 	/**
@@ -217,33 +233,42 @@ class BinarySearchTree {
 		if (tree.right) this.printTree(tree.right, indent, true);
 	}
 
-	getInOrderNodes(rootnode = this.root) {
+	getInOrderNodes(root = this.root) {
 		let arr = [];
-		for (let node of this.inOrderTraversal(rootnode)) {
+		for (let node of this.inOrderTraversal(root)) {
 			arr.push(node);
 		}
 		return arr;
 	}
 
-	getInOrderValues(rootnode = this.root) {
+	getInOrderValues(root = this.root) {
 		let arr = [];
-		for (let node of this.inOrderTraversal(rootnode)) {
+		for (let node of this.inOrderTraversal(root)) {
 			arr.push(node.value);
 		}
 		return arr;
 	}
 
-	getPreOrderValues(rootnode = this.root) {
+	getPreOrderValues(root = this.root) {
 		let arr = [];
-		for (let node of this.preOrderTraversal(rootnode)) {
+		for (let node of this.preOrderTraversal(root)) {
 			arr.push(node.value);
 		}
 		return arr;
 	}
 
-	getPostOrderValues(rootnode = this.root) {
+	getPostOrderValues(root = this.root) {
 		let arr = [];
-		for (let node of this.postOrderTraversal(rootnode)) {
+		for (let node of this.postOrderTraversal(root)) {
+			arr.push(node.value);
+		}
+		return arr;
+	}
+
+
+	getLevelOrderValues(root = this.root) {
+		let arr = [];
+		for (let node of this.levelOrderTraversal(root)) {
 			arr.push(node.value);
 		}
 		return arr;
@@ -255,12 +280,12 @@ class BinarySearchTree {
 		if (start > end)
 			return null;
 
-		/* Get the middle element and make it root */
+		// Get the middle element and make it root
 		let mid = parseInt((start + end) / 2, 10);
 		let node = nodes[mid];
 
-		/* Using index in Inorder traversal, construct
-		left and right subtress */
+		// Using nodes from the InOrder traversal array (sorted order),
+		// construct the left and right subtrees
 		node.left = this._buildTreeFromNodes(nodes, start, mid - 1);
 		node.right = this._buildTreeFromNodes(nodes, mid + 1, end);
 
@@ -270,6 +295,7 @@ class BinarySearchTree {
 
 	/**
 	 * Balance a (sub)tree
+	 * Complexity: O(n)
 	 * @param {*} node The previous root node of the (sub)tree
 	 * @returns root node of the balanced tree
 	 */
