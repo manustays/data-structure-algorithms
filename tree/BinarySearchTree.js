@@ -11,46 +11,6 @@ class BinarySearchTree {
 	}
 
 
-	// get root() {
-	// 	return this.root;
-	// }
-
-	// set root(node) {
-	// 	this.root = node;
-	// }
-
-
-	/**
-	 * Add a value to the tree. If the value already exists in the node,
-	 * its duplicate count is increased. Otherwise, a new node is added.
-	 * @param {*} value
-	 * @returns The node (either new or existing) with the given value.
-	 */
-	add(value) {
-
-		const node = new TreeNode(value);
-
-		if (this.root === null) {
-			this.root = node;
-		} else {
-			const { foundNode, parent } = this._findNodeAndParent(value);
-
-			if (foundNode) {
-				foundNode.addDuplicate();
-			} else {
-				if (value < parent.value) {
-					parent.left = node;
-				} else {
-					parent.right = node;
-				}
-			}
-		}
-
-		this.size += 1;
-		return node;
-	}
-
-
 	/**
 	 * Find a node with the given value or the parent node under which this value should be added
 	 * @param {*} value The value to find
@@ -108,11 +68,80 @@ class BinarySearchTree {
 	maxNode(node) {
 		let maxNode = node || this.root;
 
-		while (maxNode.left !== null) {
-			maxNode = maxNode.left;
+		while (maxNode.right !== null) {
+			maxNode = maxNode.right;
 		}
 
 		return maxNode;
+	}
+
+
+	/**
+	 * Find the height of the tree.
+	 * Height = Number of edges via the longest path between the root node and a leaf nodes.
+	 * @param {*} node The root node from which to calculate the height
+	 * @returns The height of the tree
+	 */
+	height(root = this.root) {
+		if (root === null) {
+			return -1;
+		}
+
+		let left_height = this.height(root.left);
+		let right_height = this.height(root.right);
+
+		return (left_height > right_height ? left_height : right_height) + 1;
+	}
+
+
+	/**
+	 * Find the depth of a node.
+	 * @param {*} node The node for finding the depth
+	 * @returns The depth of the node
+	 */
+	depth(node) {
+		if (!node) {
+			return 0;
+		}
+
+		let depth = 0;
+		while (node.parent && node.parent !== node) {
+			node = node.parent;
+			depth++;
+		}
+
+		return depth;
+	}
+
+
+	/**
+	 * Add a value to the tree. If the value already exists in the node,
+	 * its duplicate count is increased. Otherwise, a new node is added.
+	 * @param {*} value
+	 * @returns The node (either new or existing) with the given value.
+	 */
+	add(value) {
+
+		const node = new TreeNode(value);
+
+		if (this.root === null) {
+			this.root = node;
+		} else {
+			const { foundNode, parent } = this._findNodeAndParent(value);
+
+			if (foundNode) {
+				foundNode.addDuplicate();
+			} else {
+				if (value < parent.value) {
+					parent.left = node;
+				} else {
+					parent.right = node;
+				}
+			}
+		}
+
+		this.size += 1;
+		return node;
 	}
 
 
@@ -156,27 +185,52 @@ class BinarySearchTree {
 
 		}
 
+
+		this.size -= 1;
+		return true;
 	}
 
 
-	*inOrderTraversal(node = this.root) {
-		if (node.left) yield* this.inOrderTraversal(node.left);
-		yield node;
-		if (node.right) yield* this.inOrderTraversal(node.right);
+	/**
+	 * Generator function to iterate over a tree using in-order traversal.
+	 * Traversal Order = Left SubTree --> Root Node --> Right SubTree.
+	 * Usage:
+	 * 1. Gives nodes in a non-decreasing sorted order.
+	 * @param {*} root The root node of the sub-tree to traverse
+	 */
+	*inOrderTraversal(root = this.root) {
+		if (root.left) yield* this.inOrderTraversal(root.left);
+		yield root;
+		if (root.right) yield* this.inOrderTraversal(root.right);
 	}
 
-	*preOrderTraversal(node = this.root) {
-		yield node;
-		if (node.left) yield* this.preOrderTraversal(node.left);
-		if (node.right) yield* this.preOrderTraversal(node.right);
+	/**
+	 * Generator function to iterate over a tree using pre-order traversal.
+	 * Traversal Order = Root Node --> Left SubTree --> Right SubTree.
+	 * Usage:
+	 * 1. To create a copy of the tree.
+	 * 2. Get prefix expression on an expression tree. See [Polish Notation](http://en.wikipedia.org/wiki/Polish_notation).
+	 * @param {*} root The root node of the sub-tree to traverse
+	 */
+	*preOrderTraversal(root = this.root) {
+		yield root;
+		if (root.left) yield* this.preOrderTraversal(root.left);
+		if (root.right) yield* this.preOrderTraversal(root.right);
 	}
 
-	*postOrderTraversal(node = this.root) {
-		if (node.left) yield* this.postOrderTraversal(node.left);
-		if (node.right) yield* this.postOrderTraversal(node.right);
-		yield node;
+	/**
+	 * Generator function to iterate over a tree using pre-order traversal.
+	 * Traversal Order = Root Node --> Left SubTree --> Right SubTree.
+	 * Usage:
+	 * 1. To delete a tree.
+	 * 2. Get postfix expression on an expression tree. See [Reverse Polish Notation](http://en.wikipedia.org/wiki/Reverse_Polish_notation).
+	 * @param {*} root The root node of the sub-tree to traverse
+	 */
+	*postOrderTraversal(root = this.root) {
+		if (root.left) yield* this.postOrderTraversal(root.left);
+		if (root.right) yield* this.postOrderTraversal(root.right);
+		yield root;
 	}
-
 
 	*levelOrderTraversal(root = this.root) {
 		if (!root) {
@@ -192,45 +246,6 @@ class BinarySearchTree {
 			if (node.left) queue.push(node.left);
 			if (node.right) queue.push(node.right);
 		}
-	}
-
-
-
-	/**
-	 * Find the height of the tree.
-	 * Height = Number of edges via the longest path between the root node and a leaf nodes.
-	 * @param {*} node The root node from which to calculate the height
-	 * @returns The height of the tree
-	 */
-	height(root = this.root) {
-		if (root === null) {
-			return -1;
-		}
-
-		let left_height = this.height(root.left);
-		let right_height = this.height(root.right);
-
-		return (left_height > right_height ? left_height : right_height) + 1;
-	}
-
-
-	/**
-	 * Find the depth of a node.
-	 * @param {*} node The node for finding the depth
-	 * @returns The depth of the node
-	 */
-	depth(node) {
-		if (!node) {
-			return 0;
-		}
-
-		let depth = 0;
-		while (node.parent && node.parent !== node) {
-			node = node.parent;
-			depth++;
-		}
-
-		return depth;
 	}
 
 
@@ -251,6 +266,7 @@ class BinarySearchTree {
 		if (tree.right) this.printTree(tree.right, indent, true);
 	}
 
+
 	getInOrderNodes(root = this.root) {
 		let arr = [];
 		for (let node of this.inOrderTraversal(root)) {
@@ -258,6 +274,7 @@ class BinarySearchTree {
 		}
 		return arr;
 	}
+
 
 	getInOrderValues(root = this.root) {
 		let arr = [];
@@ -267,6 +284,7 @@ class BinarySearchTree {
 		return arr;
 	}
 
+
 	getPreOrderValues(root = this.root) {
 		let arr = [];
 		for (let node of this.preOrderTraversal(root)) {
@@ -274,6 +292,7 @@ class BinarySearchTree {
 		}
 		return arr;
 	}
+
 
 	getPostOrderValues(root = this.root) {
 		let arr = [];
@@ -293,7 +312,14 @@ class BinarySearchTree {
 	}
 
 
-	_buildTreeFromNodes(nodes, start, end) {
+	/**
+	 * Utility function: Build a balanced BST from sorted array of nodes.
+	 * @param {*} nodes Sorted array of nodes
+	 * @param {*} start Start index of nodes array
+	 * @param {*} end End index of nodes array
+	 * @returns A new balanced BST
+	 */
+	_buildBSTFromNodes(nodes, start, end) {
 		// base case
 		if (start > end)
 			return null;
@@ -305,8 +331,8 @@ class BinarySearchTree {
 
 		// Using nodes from the InOrder traversal array (sorted order),
 		// construct the left and right subtrees
-		node.left = this._buildTreeFromNodes(nodes, start, mid - 1);
-		node.right = this._buildTreeFromNodes(nodes, mid + 1, end);
+		node.left = this._buildBSTFromNodes(nodes, start, mid - 1);
+		node.right = this._buildBSTFromNodes(nodes, mid + 1, end);
 
 		if (node.left) node.left.parent = node;
 		if (node.right) node.right.parent = node;
@@ -323,7 +349,7 @@ class BinarySearchTree {
 	 */
 	getBalancedSubTree(node = this.root) {
 		let nodes = this.getInOrderNodes(node);
-		return this._buildTreeFromNodes(nodes, 0, nodes.length - 1);
+		return this._buildBSTFromNodes(nodes, 0, nodes.length - 1);
 	}
 
 
