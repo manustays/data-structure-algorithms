@@ -77,8 +77,7 @@ class BinarySearchTree {
 
 
 	/**
-	 * Find the height of the tree.
-	 * Height = Number of edges via the longest path between the root node and a leaf nodes.
+	 * Find the height of the tree, i.e., number of edges via the longest path between the root node and a leaf nodes.
 	 * @param {*} node The root node from which to calculate the height
 	 * @returns The height of the tree
 	 */
@@ -95,7 +94,7 @@ class BinarySearchTree {
 
 
 	/**
-	 * Find the depth of a node.
+	 * Find the depth of a node, i.e, distance from the root node.
 	 * @param {*} node The node for finding the depth
 	 * @returns The depth of the node
 	 */
@@ -158,8 +157,8 @@ class BinarySearchTree {
 			return false;
 		}
 
-		const isRoot = node.parent === null;
-		const branch = node.isLeftOfParent ? 'left' : 'right';
+		const branch = node.isLeftChild ? 'left' : 'right';
+		const hasBothChildren = node.left && node.right;
 
 		if (node.duplicates > 1) {
 			// Case 1: duplicate values present.
@@ -167,24 +166,41 @@ class BinarySearchTree {
 			node.removeDuplicate();
 		} else if (node.isLeaf) {
 			// Case 2: node to be deleted has no children
-			if (isRoot) {
+			if (node.isRoot) {
 				this.root = null;
 			} else {
 				node.parent[branch] = null;
 			}
-		} else if (node.left === null || node.right === null) {
+		} else if (!hasBothChildren) {
 			// Case 3: node to be deleted has only one child
-			const child_node = node.left || node.right;
-			if (isRoot) {
-				this.root = child_node;
+			const child = node.left || node.right;
+			if (node.isRoot) {
+				this.root = child;
 			} else {
-				node.parent[branch] = child_node;
+				node.parent[branch] = child;
 			}
+			child.parent = node.parent;
 		} else {
 			// Case 4: node to be deleted has both children
+			const rightMostLeftNode = [...this.inOrderTraversal(node.left)].pop();
 
+			// Detach the rightmost-left-node from the tree...
+			const rightMostLeftNodeBranch = rightMostLeftNode.isLeftChild ? "left" : "right";
+			rightMostLeftNode.parent[rightMostLeftNodeBranch] = null;
+			rightMostLeftNode.parent = null;
+
+			// Replace the node to be deleted with the rightmost-left node
+			if (node.isRoot) {
+				this.root = rightMostLeftNode;
+			} else {
+				node.parent[branch] = rightMostLeftNode;
+			}
+			rightMostLeftNode.parent = node.parent;
+			rightMostLeftNode.left = node.left;
+			rightMostLeftNode.right = node.right;
+			rightMostLeftNode.left.parent = rightMostLeftNode;
+			rightMostLeftNode.right.parent = rightMostLeftNode;
 		}
-
 
 		this.size -= 1;
 		return true;
@@ -192,10 +208,54 @@ class BinarySearchTree {
 
 
 	/**
-	 * Generator function to iterate over a tree using in-order traversal.
+	 * Delete the whole tree or a sub-tree.
+	 * @param {*} node The root of the sub-tree to delete. Default = root of the tree.
+	 */
+	deleteTree(node = this.root) {
+		// Javascript supports automatic garbage collection.
+		// So, we can just set the root to null.
+
+		if (node === null) {
+			return;
+		}
+
+		const parent = node.parent;		// null for node node
+		const branch = node.isLeftChild ? 'left' : 'right';
+		if (parent) {
+			// Delete subtree
+			parent[branch] = null;
+		} else {
+			// Delete tree
+			this.root = null;
+		}
+	}
+
+	/**
+	 * Delete the whole tree or a sub-tree one node at a time.
+	 * @param {*} root The root of the sub-tree to delete. Default = root of the tree.
+	 */
+	deepDeleteTree(root = this.root) {
+		const _isRoot = root.isRoot;
+		for (let node of this.postOrderTraversal(root)) {
+			node.left = null;
+			node.right = null;
+			node.parent = null;
+			node.value = null;
+		}
+
+		if (_isRoot) {
+			this.root = null;
+		}
+	}
+
+
+	/**
+	 * Generator function to iterate over a tree using in-order traversal (depth-first).
 	 * Traversal Order = Left SubTree --> Root Node --> Right SubTree.
 	 * Usage:
-	 * 1. Gives nodes in a non-decreasing sorted order.
+	 *   1. Gives nodes in a non-decreasing sorted order.
+	 * Time Complexity = O(n), where n is number of nodes.
+	 * Space Complexity = O(1), due to generator function.
 	 * @param {*} root The root node of the sub-tree to traverse
 	 */
 	*inOrderTraversal(root = this.root) {
@@ -205,11 +265,13 @@ class BinarySearchTree {
 	}
 
 	/**
-	 * Generator function to iterate over a tree using pre-order traversal.
+	 * Generator function to iterate over a tree using pre-order traversal (depth-first).
 	 * Traversal Order = Root Node --> Left SubTree --> Right SubTree.
 	 * Usage:
-	 * 1. To create a copy of the tree.
-	 * 2. Get prefix expression on an expression tree. See [Polish Notation](http://en.wikipedia.org/wiki/Polish_notation).
+	 *   1. To create a copy of the tree.
+	 *   2. Get prefix expression on an expression tree. See [Polish Notation](http://en.wikipedia.org/wiki/Polish_notation).
+	 * Time Complexity = O(n), where n is number of nodes.
+	 * Space Complexity = O(1), due to generator function.
 	 * @param {*} root The root node of the sub-tree to traverse
 	 */
 	*preOrderTraversal(root = this.root) {
@@ -219,11 +281,13 @@ class BinarySearchTree {
 	}
 
 	/**
-	 * Generator function to iterate over a tree using pre-order traversal.
-	 * Traversal Order = Root Node --> Left SubTree --> Right SubTree.
+	 * Generator function to iterate over a tree using post-order traversal (depth-first).
+	 * Traversal Order = Root Node --> Right SubTree --> Left SubTree.
 	 * Usage:
-	 * 1. To delete a tree.
-	 * 2. Get postfix expression on an expression tree. See [Reverse Polish Notation](http://en.wikipedia.org/wiki/Reverse_Polish_notation).
+	 *   1. To delete an entire tree (delete children before deleting the root); especially if automatic garbage collection is not available.
+	 *   2. Get postfix expression on an expression tree. See [Reverse Polish Notation](http://en.wikipedia.org/wiki/Reverse_Polish_notation).
+	 * Time Complexity = O(n), where n is number of nodes.
+	 * Space Complexity = O(1), due to generator function.
 	 * @param {*} root The root node of the sub-tree to traverse
 	 */
 	*postOrderTraversal(root = this.root) {
@@ -232,6 +296,13 @@ class BinarySearchTree {
 		yield root;
 	}
 
+	/**
+	 * Generator function to iterate over a tree using level-order traversal (breadth-first).
+	 * Traversal Order = Root Node --> nodes of depth 1 (left to right) --> ...
+	 * Time Complexity = O(n), where n is number of nodes.
+	 * Space Complexity = O(n), due to the usage of queue.
+	 * @param {*} root The root node of the sub-tree to traverse
+	 */
 	*levelOrderTraversal(root = this.root) {
 		if (!root) {
 			return;
@@ -262,7 +333,7 @@ class BinarySearchTree {
 		console.log(indent + "+- " + tree.value);
 		indent += last ? "   " : "|  ";
 
-		if (tree.left) this.printTree(tree.left, indent, false);
+		if (tree.left) this.printTree(tree.left, indent, !tree.right);
 		if (tree.right) this.printTree(tree.right, indent, true);
 	}
 

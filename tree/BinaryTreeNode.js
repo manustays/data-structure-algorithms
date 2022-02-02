@@ -18,7 +18,7 @@ class TreeNode {
 	}
 
 	get isLeftChild() {
-		return this.isRoot ? false : this.parent.left.value === this.value;
+		return this.isRoot ? false : this.parent.left && this.parent.left.value === this.value;
 	}
 
 	get value() {
