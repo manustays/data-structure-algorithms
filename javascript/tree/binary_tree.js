@@ -1,9 +1,94 @@
-// BST: Binary Search Tree
+/**
+ * A Binary Tree implementation
+ */
 
-const TreeNode = require("./BinaryTreeNode");
+
+/**
+ * The data structure for a single node of a binary tree.
+ * Contains pointers to two child nodes: left & right.
+ */
+class TreeNode {
+
+	constructor(value) {
+		/** @param {Number} value The value of the node */
+		this.value = value;
+
+		this._left = null;			// Link to the left node (root-node of the left subtree)
+		this._right = null;			// Link to the right node (root-node of the right subtree)
+		this._parent = null;		// Link to the parent node
+		this.meta = {};				// Additional metadata for the nodes
+	}
+
+	get isRoot() {
+		return this.parent === null;
+	}
+
+	get isLeaf() {
+		return this.left === null && this.right === null;
+	}
+
+	get isLeftChild() {
+		return this.isRoot ? false : this.parent.left && this.parent.left.value === this.value;
+	}
+
+	get left() {
+		return this._left;
+	}
+
+	set left(node) {
+		this._left = node;
+		if (node) {
+			node.parent = this;
+		}
+	}
+
+	get right() {
+		return this._right;
+	}
+
+	set right(node) {
+		this._right = node;
+		if (node) {
+			node.parent = this;
+		}
+	}
+
+	get parent() {
+		return this._parent;
+	}
+
+	set parent(node) {
+		this._parent = node;
+		// if (node === null || this._parent.left === this || this._parent.right === this) {
+		// 	this._parent = node;
+		// } else {
+		// 	console.error("Invalid parent node: ", {this_node: this, parent: node});
+		// }
+	}
+
+	get duplicates() {
+		return this.meta.duplicates || 1;
+	}
+
+	addDuplicate() {
+		this.meta.duplicates = (this.meta.duplicates || 1) + 1;
+	}
+
+	removeDuplicate() {
+		if (this.meta.duplicates > 1) {
+			this.meta.duplicates = (this.meta.duplicates || 2) - 1;
+			return true;
+		}
+
+		return false;
+	}
+
+}
 
 
-class BinarySearchTree {
+
+
+class BinaryTree {
 
 	constructor() {
 		this.root = null;
@@ -12,72 +97,9 @@ class BinarySearchTree {
 
 
 	/**
-	 * Find a node with the given value or the parent node under which this value should be added
-	 * @param {*} value The value to find
-	 * @returns An object with foundNode and parent
-	 */
-	_findNodeAndParent(value) {
-		let foundNode = this.root;
-		let parent;
-
-		while (foundNode) {
-			if (foundNode.value === value) {
-				break;
-			}
-
-			parent = foundNode;
-			foundNode = (value < foundNode.value ? foundNode.left : foundNode.right);
-		}
-
-		return { foundNode, parent };
-	}
-
-
-	/**
-	 * Find a node with the given value
-	 * @param {*} value The value to find
-	 * @returns A node or null if not found
-	 */
-	find(value) {
-		let { foundNode } = this._findNodeAndParent(value);
-		return foundNode;
-	}
-
-
-	/**
-	 * Find the node with the minimum value with the entire tree or in a subtree.
-	 * @param {*} node The root of the subtree. Default is the root node of the entire tree.
-	 * @returns The minimum value node
-	 */
-	minNode(node) {
-		let minNode = node || this.root;
-
-		while (minNode.left !== null) {
-			minNode = minNode.left;
-		}
-
-		return minNode;
-	}
-
-
-	/**
-	 * Find the node with the maximum value with the entire tree or in a subtree.
-	 * @param {*} node The root of the subtree. Default is the root node of the entire tree.
-	 * @returns The maximum value node
-	 */
-	maxNode(node) {
-		let maxNode = node || this.root;
-
-		while (maxNode.right !== null) {
-			maxNode = maxNode.right;
-		}
-
-		return maxNode;
-	}
-
-
-	/**
 	 * Find the height of the tree, i.e., number of edges via the longest path between the root node and a leaf nodes.
+	 *
+	 * Time Complexity: O(n)
 	 * @param {*} node The root node from which to calculate the height
 	 * @returns The height of the tree
 	 */
@@ -110,37 +132,6 @@ class BinarySearchTree {
 		}
 
 		return depth;
-	}
-
-
-	/**
-	 * Add a value to the tree. If the value already exists in the node,
-	 * its duplicate count is increased. Otherwise, a new node is added.
-	 * @param {*} value
-	 * @returns The node (either new or existing) with the given value.
-	 */
-	add(value) {
-
-		const node = new TreeNode(value);
-
-		if (this.root === null) {
-			this.root = node;
-		} else {
-			const { foundNode, parent } = this._findNodeAndParent(value);
-
-			if (foundNode) {
-				foundNode.addDuplicate();
-			} else {
-				if (value < parent.value) {
-					parent.left = node;
-				} else {
-					parent.right = node;
-				}
-			}
-		}
-
-		this.size += 1;
-		return node;
 	}
 
 
@@ -251,14 +242,14 @@ class BinarySearchTree {
 
 	/**
 	 * Generator function to iterate over a tree using in-order traversal (depth-first).
-	 * Traversal Order = Left SubTree --> Root Node --> Right SubTree.
-	 * Usage:
+	 * - Traversal Order = Left SubTree --> Root Node --> Right SubTree.
+	 * - Usage:
 	 *   1. Gives nodes in a non-decreasing sorted order.
-	 * Time Complexity = O(n), where n is number of nodes.
-	 * Space Complexity = O(1), due to generator function.
+	 * - Time Complexity = O(n), where n is number of nodes.
+	 * - Space Complexity = O(1), due to generator function.
 	 * @param {*} root The root node of the sub-tree to traverse
 	 */
-	*inOrderTraversal(root = this.root) {
+	* inOrderTraversal(root = this.root) {
 		if (root.left) yield* this.inOrderTraversal(root.left);
 		yield root;
 		if (root.right) yield* this.inOrderTraversal(root.right);
@@ -266,15 +257,15 @@ class BinarySearchTree {
 
 	/**
 	 * Generator function to iterate over a tree using pre-order traversal (depth-first).
-	 * Traversal Order = Root Node --> Left SubTree --> Right SubTree.
-	 * Usage:
+	 * - Traversal Order = Root Node --> Left SubTree --> Right SubTree.
+	 * - Usage:
 	 *   1. To create a copy of the tree.
 	 *   2. Get prefix expression on an expression tree. See [Polish Notation](http://en.wikipedia.org/wiki/Polish_notation).
-	 * Time Complexity = O(n), where n is number of nodes.
-	 * Space Complexity = O(1), due to generator function.
+	 * - Time Complexity = O(n), where n is number of nodes.
+	 * - Space Complexity = O(1), due to generator function.
 	 * @param {*} root The root node of the sub-tree to traverse
 	 */
-	*preOrderTraversal(root = this.root) {
+	* preOrderTraversal(root = this.root) {
 		yield root;
 		if (root.left) yield* this.preOrderTraversal(root.left);
 		if (root.right) yield* this.preOrderTraversal(root.right);
@@ -282,15 +273,15 @@ class BinarySearchTree {
 
 	/**
 	 * Generator function to iterate over a tree using post-order traversal (depth-first).
-	 * Traversal Order = Root Node --> Right SubTree --> Left SubTree.
-	 * Usage:
+	 * - Traversal Order = Left SubTree --> Right SubTree --> Root Node.
+	 * - Usage:
 	 *   1. To delete an entire tree (delete children before deleting the root); especially if automatic garbage collection is not available.
 	 *   2. Get postfix expression on an expression tree. See [Reverse Polish Notation](http://en.wikipedia.org/wiki/Reverse_Polish_notation).
-	 * Time Complexity = O(n), where n is number of nodes.
-	 * Space Complexity = O(1), due to generator function.
+	 * - Time Complexity = O(n), where n is number of nodes.
+	 * - Space Complexity = O(1), due to generator function.
 	 * @param {*} root The root node of the sub-tree to traverse
 	 */
-	*postOrderTraversal(root = this.root) {
+	* postOrderTraversal(root = this.root) {
 		if (root.left) yield* this.postOrderTraversal(root.left);
 		if (root.right) yield* this.postOrderTraversal(root.right);
 		yield root;
@@ -298,12 +289,12 @@ class BinarySearchTree {
 
 	/**
 	 * Generator function to iterate over a tree using level-order traversal (breadth-first).
-	 * Traversal Order = Root Node --> nodes of depth 1 (left to right) --> ...
-	 * Time Complexity = O(n), where n is number of nodes.
-	 * Space Complexity = O(n), due to the usage of queue.
+	 * - Traversal Order = Root Node --> nodes of depth 1 (left to right) --> ...
+	 * - Time Complexity = O(n), where n is number of nodes.
+	 * - Space Complexity = O(n), due to the usage of queue.
 	 * @param {*} root The root node of the sub-tree to traverse
 	 */
-	*levelOrderTraversal(root = this.root) {
+	* levelOrderTraversal(root = this.root) {
 		if (!root) {
 			return;
 		}
@@ -382,56 +373,7 @@ class BinarySearchTree {
 		return arr;
 	}
 
-
-	/**
-	 * Utility function: Build a balanced BST from sorted array of nodes.
-	 * @param {*} nodes Sorted array of nodes
-	 * @param {*} start Start index of nodes array
-	 * @param {*} end End index of nodes array
-	 * @returns A new balanced BST
-	 */
-	_buildBSTFromNodes(nodes, start, end) {
-		// base case
-		if (start > end)
-			return null;
-
-		// Get the middle element and make it root
-		let mid = parseInt((start + end) / 2, 10);
-		let node = nodes[mid];
-		node.parent = null;
-
-		// Using nodes from the InOrder traversal array (sorted order),
-		// construct the left and right subtrees
-		node.left = this._buildBSTFromNodes(nodes, start, mid - 1);
-		node.right = this._buildBSTFromNodes(nodes, mid + 1, end);
-
-		if (node.left) node.left.parent = node;
-		if (node.right) node.right.parent = node;
-
-		return node;
-	}
-
-
-	/**
-	 * Balance a (sub)tree
-	 * Complexity: O(n)
-	 * @param {*} node The previous root node of the (sub)tree
-	 * @returns root node of the balanced tree
-	 */
-	getBalancedSubTree(node = this.root) {
-		let nodes = this.getInOrderNodes(node);
-		return this._buildBSTFromNodes(nodes, 0, nodes.length - 1);
-	}
-
-
-	/**
-	 * Rebalance the tree (reduce to minimum depth)
-	 */
-	reBalanceTree() {
-		this.root = this.getBalancedSubTree(this.root);
-	}
-
 };
 
 
-module.exports = BinarySearchTree;
+module.exports = { BinaryTree, TreeNode };
