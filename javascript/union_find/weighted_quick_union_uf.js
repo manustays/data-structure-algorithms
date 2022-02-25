@@ -42,7 +42,8 @@ class WeightedQuickUnionUF {
 		}
 
 		while (i !== this.id_[i]) {
-			i = this.id_[i];
+			this.id_[i] = this.id_[this.id_[i]];	// One-pass path compression
+			i = this.id_[i];						// Goto root node
 		}
 		return i;
 	}
@@ -97,7 +98,7 @@ class WeightedQuickUnionUF {
 
 		let out = "";
 		for (let i in tmp) {
-			out += (out && ', ') + "(" + tmp[i] + ")";
+			out += (out && ' ') + "(" + tmp[i] + ")";
 		}
 
 		console.log(out);
