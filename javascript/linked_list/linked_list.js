@@ -40,6 +40,20 @@ class LinkedList {
 	}
 
 	/**
+	 * Remove & return the node at the beginning of the list
+	 * @param {*} data
+	 * @returns {!Node} the deleted node or null (if not found)
+	 */
+	pop() {
+		if (!this.head) {
+			return null;
+		}
+		let node = this.head;
+		this.head = this.head.next;
+		return node;
+	}
+
+	/**
 	 * Insert a node after a given `prevNode`
 	 * @param {*} prevNode
 	 * @param {*} data
