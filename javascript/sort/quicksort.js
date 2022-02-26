@@ -4,8 +4,9 @@ const InsertionSort = require('./insertionsort.js');
 
 /**
  * Quicksort implementation with the following improvements:
- * 1. Use Insertion Sort for smaller arrays.
- * 2. Use median-of-3-samples to find optimal partition element.
+ * 1. Initial shuffle for performance guarantee and avoiding the worst-case complexity.
+ * 2. Use Insertion Sort for smaller arrays.
+ * 3. Use median-of-3-samples to find optimal partition element.
  */
 class QuickSort extends Sortable {
 
@@ -118,7 +119,7 @@ class QuickSort extends Sortable {
 	 * @param {function(*,*): number} compareFn the custom compare functions. Defaults to arithmetic comparison for primitives.
 	 */
 	static sort(list, compareFn) {
-		// Shuffle the array for performance guarantee (avoid worst-case)
+		// Shuffle the array for performance guarantee (avoid worst-case complexity)
 		KnuthShuffle.shuffle(list);
 
 		// Sort the array
