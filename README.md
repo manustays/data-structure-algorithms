@@ -10,13 +10,13 @@ Data structure algorithm implementations for learning in various programming lan
 	  - ✅ Path compression
   - 📂 [**sort/**](/javascript/sort)
     - 📄 [**sortable.js**](/javascript/sort/sortable.js): Base class with common utility methods for array-based sorting algorithms.
-	- 📄 [**knuth_shuffle.js**](/javascript/sort/knuth_shuffle.js): **`Knuth shuffle`** algorithm.
-	- 📄 [**insertionsort.js**](/javascript/sort/insertionsort.js): **`Insertion sort`** algorithm.
-	- 📄 [**mergesort.js**](/javascript/sort/mergesort.js): **`Mergesort`** algorithm with improvements:
+	- 📄 [**knuth_shuffle.js**](/javascript/sort/knuth_shuffle.js): **`Knuth shuffle`** algorithm for arrays.
+	- 📄 [**insertionsort.js**](/javascript/sort/insertionsort.js): **`Insertion sort`** algorithm for arrays.
+	- 📄 [**mergesort.js**](/javascript/sort/mergesort.js): **`Mergesort`** algorithm for arrays with improvements:
 	  - ✅ Insertion Sort for smaller subarrays
 	  - ✅ Stop early if already sorted
 	  - 🔲 Eliminate copy of auxiliary array
-	- 📄 [**quicksort.js**](/javascript/sort/quicksort.js): **`Quicksort`** algorithm with improvements:
+	- 📄 [**quicksort.js**](/javascript/sort/quicksort.js): **`Quicksort`** algorithm for arrays with improvements:
 	  - ✅ Initial shuffle for performance guarantee
 	  - ✅ Insertion Sort for smaller subarrays
 	  - ✅ Median-of-3-samples to find optimal partition element
