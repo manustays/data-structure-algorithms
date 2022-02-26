@@ -7,9 +7,10 @@ Data structure algorithm implementations for learning in various programming lan
     - 📄 [**weighted_quick_union_uf.js**](/javascript/union_find/weighted_quick_union_uf.js): Quick-UnionFind with weighted sub-trees & path compression improvements.
   - 📂 [**sort/**](/javascript/sort)
     - 📄 [**sortable.js**](/javascript/sort/sortable.js): Base class with common sorting utility functions.
-	- 📄 [**insertionsort.js**](/javascript/sort/insertionsort.js): Insertion sort.
-	- 📄 [**mergesort.js**](/javascript/sort/mergesort.js): Mergesort with improvements.
-	- 📄 [**quicksort.js**](/javascript/sort/quicksort.js): Quicksort with improvements.
+	- 📄 [**knuth_shuffle.js**](/javascript/sort/knuth_shuffle.js): Knuth shuffle algorithm.
+	- 📄 [**insertionsort.js**](/javascript/sort/insertionsort.js): Insertion sort algorithm.
+	- 📄 [**mergesort.js**](/javascript/sort/mergesort.js): Mergesort algorithm with improvements.
+	- 📄 [**quicksort.js**](/javascript/sort/quicksort.js): Quicksort algorithm with improvements.
   - 📂 [**linked_list/**](/javascript/linked_list)
     - 📄 [**linked_list.js**](/javascript/tree/linked_list.js): A singly-linked-list implementation.
   - 📂 [**tree/**](/javascript/tree)
