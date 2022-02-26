@@ -44,7 +44,7 @@ class Sortable {
 	 */
 	static isSubArraySorted(list, lo, hi, compareFn) {
 		for (let i = lo; i < hi; i++) {
-			if (!this.less(list[i], list[i + 1], compareFn)) {
+			if (this.less(list[i+1], list[i], compareFn)) {
 				return false;
 			}
 		}
