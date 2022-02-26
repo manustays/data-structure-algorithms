@@ -9,7 +9,7 @@ Data structure algorithm implementations for learning in various programming lan
 	  - ✅ Weighted sub-trees
 	  - ✅ Path compression
   - 📂 [**sort/**](/javascript/sort)
-    - 📄 [**sortable.js**](/javascript/sort/sortable.js): Base class with common sorting utility functions.
+    - 📄 [**sortable.js**](/javascript/sort/sortable.js): Base class with common utility methods for array-based sorting algorithms.
 	- 📄 [**knuth_shuffle.js**](/javascript/sort/knuth_shuffle.js): **`Knuth shuffle`** algorithm.
 	- 📄 [**insertionsort.js**](/javascript/sort/insertionsort.js): **`Insertion sort`** algorithm.
 	- 📄 [**mergesort.js**](/javascript/sort/mergesort.js): **`Mergesort`** algorithm with improvements:
