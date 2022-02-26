@@ -8,10 +8,10 @@ class InsertionSort extends Sortable {
 
 	/**
 	 * Sorts an array in-place between the given indices using the provided compare function.
-	 * @param {!Array} list an array of items to sort
-	 * @param {Number} lo Start index
-	 * @param {Number} hi End index
-	 * @param {!Function} compareFn the custom compare functions. Defaults to arithmetic comparison for primitives.
+	 * @param {!Array<*>} list an array of items to sort
+	 * @param {number} lo Start index
+	 * @param {number} hi End index
+	 * @param {function(*,*): number} compareFn the custom compare functions. Defaults to arithmetic comparison for primitives.
 	 */
 	static insertionSort(list, lo, hi, compareFn) {
 		for (let i = lo + 1; i <= hi; i++) {
@@ -25,8 +25,8 @@ class InsertionSort extends Sortable {
 
 	/**
 	 * Sorts an array in-place using the provided compare function.
-	 * @param {*} list an array of items to sort
-	 * @param {*} compareFn the custom compare functions. Defaults to arithmetic comparison for primitives.
+	 * @param {!Array<*>} list an array of items to sort
+	 * @param {function(*,*): number} compareFn the custom compare functions. Defaults to arithmetic comparison for primitives.
 	 */
 	static sort(list, compareFn) {
 		if (!(list && list.length > 1)) {

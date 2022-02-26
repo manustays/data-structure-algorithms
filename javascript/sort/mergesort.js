@@ -11,6 +11,15 @@ class Mergesort extends Sortable {
 
 	static CUTOFF = 7;		// cutoff to insertion sort
 
+	/**
+	 * Merge two sorted subarrays within an array.
+	 * @param {!Array<*>} src The array to merge
+	 * @param {!Array<*>} dst Temporary array (of same size as `src`) used in merging
+	 * @param {number} lo Start index of left subarray
+	 * @param {number} mid End index of left subarray
+	 * @param {number} hi End index of right subarray
+	 * @param {function(*,*): number} compareFn Custom comparison function for sorting
+	 */
 	static merge(src, dst, lo, mid, hi, compareFn) {
 		// Copy array to dst
 		for (let k = lo; k <= hi; k++) {
@@ -38,6 +47,15 @@ class Mergesort extends Sortable {
 		}
 	}
 
+	/**
+	 * Merge sort a subarray
+	 * @param {!Array<*>} list The array to sort
+	 * @param {!Array<*>} aux Auxiliary array (of same size as `list`) used in sorting
+	 * @param {number} lo Start index of the subarray to sort
+	 * @param {number} hi End index of the subarray to sort
+	 * @param {function(*,*): number} compareFn Custom comparison function for sorting
+	 * @returns
+	 */
 	static mergesort(list, aux, lo, hi, compareFn) {
 		// if (lo >= hi) return;
 
@@ -65,9 +83,9 @@ class Mergesort extends Sortable {
 	}
 
 	/**
-	 * Sorts an array in-place using the provided compare function.
-	 * @param {*} list an array of items to sort
-	 * @param {*} compareFn the custom compare functions. Defaults to arithmetic comparison for primitives.
+	 * Mergesorts an array using the provided compare function.
+	 * @param {!Array<*>} list an array of items to sort
+	 * @param {function(*,*): number} compareFn the custom compare functions. Defaults to arithmetic comparison for primitives.
 	 */
 	static sort(list, compareFn) {
 		if (!(list && list.length > 1)) {
