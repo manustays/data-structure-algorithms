@@ -4,8 +4,8 @@ const InsertionSort = require('./insertionsort.js');
 /**
  * Mergesort implementation with enhancements:
  * 1. [TODO] Eliminate copy of auxiliary array in the merge function to save time.
- * 2. Use Insertion Sort for smaller arrays.
- * 3. Stop is already sorted.
+ * 2. Use Insertion Sort for smaller subarrays.
+ * 3. Stop if already sorted.
  */
 class Mergesort extends Sortable {
 
