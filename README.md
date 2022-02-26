@@ -20,9 +20,9 @@ Data structure algorithm implementations for learning in various programming lan
 	  - ✅ Initial shuffle for performance guarantee
 	  - ✅ Insertion Sort for smaller subarrays
 	  - ✅ Median-of-3-samples to find optimal partition element
-  - 📂 [**binary_heap/**](/javascript/binary_heap) The binary-heap data structure & its applications.
-	- 📄 [**priority_queue.js**](/javascript/binary_heap/priority_queue.js): **`Priority Queue`** implementation using a binary-heap.
-	- 📄 [**heap_sort.js**](/javascript/binary_heap/heap_sort.js): **`Heapsort`** implementation using a binary-heap.
+  - 📂 [**binary_heap/**](/javascript/binary_heap)
+	- 📄 [**priority_queue.js**](/javascript/binary_heap/priority_queue.js): **`Priority Queue`** implementation using a `Binary Heap` data-structure.
+	- 📄 [**heap_sort.js**](/javascript/binary_heap/heap_sort.js): **`Heapsort`** implementation using a `Binary Heap` data-structure.
   - 📂 [**linked_list/**](/javascript/linked_list)
     - 📄 [**linked_list.js**](/javascript/tree/linked_list.js): A **`singly-linked-list`** implementation.
   - 📂 [**tree/**](/javascript/tree)
