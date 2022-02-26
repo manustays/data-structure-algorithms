@@ -48,7 +48,7 @@ class Mergesort extends Sortable {
 	}
 
 	/**
-	 * Merge sort a subarray
+	 * Mergesort a subarray
 	 * @param {!Array<*>} list The array to sort
 	 * @param {!Array<*>} aux Auxiliary array (of same size as `list`) used in sorting
 	 * @param {number} lo Start index of the subarray to sort
