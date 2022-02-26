@@ -1,0 +1,41 @@
+const Sortable = require('./sortable.js');
+
+/**
+ * Insertion Sort implementation
+ * Also used as an enhancement with other sort techniques when the array size is very small
+ */
+class InsertionSort extends Sortable {
+
+	/**
+	 * Sorts an array in-place between the given indices using the provided compare function.
+	 * @param {!Array} list an array of items to sort
+	 * @param {Number} lo Start index
+	 * @param {Number} hi End index
+	 * @param {!Function} compareFn the custom compare functions. Defaults to arithmetic comparison for primitives.
+	 */
+	static insertionSort(list, lo, hi, compareFn) {
+		for (let i = lo + 1; i <= hi; i++) {
+			// Swap until item on the left of j larger than item at j...
+			for (let j = i; j > lo && this.less(list[j], list[j-1], compareFn); j--) {
+				this.exch(list, j, j-1);
+			}
+		}
+	}
+
+
+	/**
+	 * Sorts an array in-place using the provided compare function.
+	 * @param {*} list an array of items to sort
+	 * @param {*} compareFn the custom compare functions. Defaults to arithmetic comparison for primitives.
+	 */
+	static sort(list, compareFn) {
+		if (!(list && list.length > 1)) {
+			console.error("Nothing to sort!");
+			return;
+		}
+
+		this.insertionSort(list, 0, list.length-1, compareFn);
+	}
+}
+
+module.exports = InsertionSort;
