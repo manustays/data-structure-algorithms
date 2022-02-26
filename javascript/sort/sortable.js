@@ -8,7 +8,7 @@ class Sortable {
 	 * Compare if `a` is less than `b` using a custom compare function (if provided)
 	 * @param {*} a
 	 * @param {*} b
-	 * @param {*} compareFn The custom compare function.
+	 * @param {function(*,*): number} compareFn The custom compare function.
 	 * @returns {Boolean} true, if `a` is less than `b`
 	 */
 	static less(a, b, compareFn) {
@@ -24,8 +24,8 @@ class Sortable {
 	/**
 	 * Exchanges two values in an array.
 	 * @param {!Array} list The array
-	 * @param {*} a The first index to exchange
-	 * @param {*} b The second array index to exchange
+	 * @param {number} a The first index to exchange
+	 * @param {number} b The second array index to exchange
 	 */
 	static exch(list, i, j) {
 		let tmp = list[i];
@@ -34,13 +34,31 @@ class Sortable {
 	}
 
 
-	static sorted(arr, lo, hi, compareFn) {
-		for (; lo<hi; lo++) {
-			if (!this.less(arr[lo], arr[lo+1], compareFn)) {
+	/**
+	 * Checks if a subarray is sorted.
+	 * @param {!Array<*>} list
+	 * @param {number} lo
+	 * @param {number} hi
+	 * @param {function(*,*): number} compareFn
+	 * @returns {boolean} true, if the array is sorted.
+	 */
+	static isSubArraySorted(list, lo, hi, compareFn) {
+		for (let i = lo; i < hi; i++) {
+			if (!this.less(list[i], list[i + 1], compareFn)) {
 				return false;
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * Checks if an array is sorted.
+	 * @param {!Array<*>} list
+	 * @param {function(*,*): number} compareFn
+	 * @returns {boolean} true, if the array is sorted.
+	 */
+	static isSorted(list, compareFn) {
+		return this.isSubArraySorted(list, 0, list.length-1, compareFn);
 	}
 
 }
