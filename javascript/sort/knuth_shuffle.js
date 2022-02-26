@@ -1,5 +1,11 @@
 const Sortable = require('./sortable.js');
 
+/**
+ * Knuth shuffle algorithm implementation
+ *
+ * @example
+ * KnuthShuffle.shuffle([1,2,3,4]);
+ */
 class KnuthShuffle extends Sortable {
 
 	/**

@@ -248,6 +248,7 @@ class BinaryTree {
 	 * - Time Complexity = O(n), where n is number of nodes.
 	 * - Space Complexity = O(1), due to generator function.
 	 * @param {*} root The root node of the sub-tree to traverse
+	 * @yields {!TreeNode} The next node of the tree
 	 */
 	* inOrderTraversal(root = this.root) {
 		if (root.left) yield* this.inOrderTraversal(root.left);
@@ -264,6 +265,7 @@ class BinaryTree {
 	 * - Time Complexity = O(n), where n is number of nodes.
 	 * - Space Complexity = O(1), due to generator function.
 	 * @param {*} root The root node of the sub-tree to traverse
+	 * @yields {!TreeNode} The next node of the tree
 	 */
 	* preOrderTraversal(root = this.root) {
 		yield root;
@@ -280,6 +282,7 @@ class BinaryTree {
 	 * - Time Complexity = O(n), where n is number of nodes.
 	 * - Space Complexity = O(1), due to generator function.
 	 * @param {*} root The root node of the sub-tree to traverse
+	 * @yields {!TreeNode} The next node of the tree
 	 */
 	* postOrderTraversal(root = this.root) {
 		if (root.left) yield* this.postOrderTraversal(root.left);
@@ -293,6 +296,7 @@ class BinaryTree {
 	 * - Time Complexity = O(n), where n is number of nodes.
 	 * - Space Complexity = O(n), due to the usage of queue.
 	 * @param {*} root The root node of the sub-tree to traverse
+	 * @yields {!TreeNode} The next node of the tree
 	 */
 	* levelOrderTraversal(root = this.root) {
 		if (!root) {

@@ -3,6 +3,9 @@ const Sortable = require('./sortable.js');
 /**
  * Insertion Sort implementation
  * Also used as an enhancement with other sort techniques when the array size is very small
+ *
+ * @example
+ * InsertionSort.sort([2,5,1,9]);
  */
 class InsertionSort extends Sortable {
 

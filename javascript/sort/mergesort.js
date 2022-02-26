@@ -6,6 +6,9 @@ const InsertionSort = require('./insertionsort.js');
  * 1. [TODO] Eliminate copy of auxiliary array in the merge function to save time.
  * 2. Use Insertion Sort for smaller subarrays.
  * 3. Stop if already sorted.
+ *
+ * @example
+ * Mergesort.sort([2,5,1,9]);
  */
 class Mergesort extends Sortable {
 

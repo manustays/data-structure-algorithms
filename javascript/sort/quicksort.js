@@ -7,6 +7,9 @@ const InsertionSort = require('./insertionsort.js');
  * 1. Initial shuffle for performance guarantee and avoiding the worst-case complexity.
  * 2. Use Insertion Sort for smaller subarrays.
  * 3. Use median-of-3-samples to find optimal partition element.
+ *
+ * @example
+ * QuickSort.sort([2,5,1,9]);
  */
 class QuickSort extends Sortable {
 
@@ -33,6 +36,7 @@ class QuickSort extends Sortable {
 			)
 		);
 	}
+
 
 	/**
 	 * Partition an array (by partial sorting) at an index such that
@@ -84,6 +88,7 @@ class QuickSort extends Sortable {
 		return j;
 	}
 
+
 	/**
 	 * Quicksort a subarray
 	 * @param {!Array<*>} list The array to sort
@@ -112,6 +117,7 @@ class QuickSort extends Sortable {
 		this.quickSort(list, lo, j - 1, compareFn);
 		this.quickSort(list, j + 1, hi, compareFn);
 	}
+
 
 	/**
 	 * Quicksorts an array using the provided compare function.

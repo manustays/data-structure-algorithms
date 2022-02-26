@@ -134,6 +134,8 @@ class LinkedList {
 
 	/**
 	 * Generater function to traverse the linked-list
+	 *
+	 * @yields {!Node} The next node in the linked-list
 	 */
 	* traverse() {
 		let node = this.head;
