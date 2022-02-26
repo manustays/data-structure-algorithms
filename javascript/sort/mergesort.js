@@ -40,7 +40,7 @@ class Mergesort extends Sortable {
 				// Second sub-array over? Copy elements from the first sub-array
 				src[k] = dst[i];
 				i++;
-			} else if (this.less(dst[i], dst[j], compareFn)) {
+			} else if (this.less(dst, i, j, compareFn)) {
 				src[k] = dst[i];
 				i++;
 			} else {
@@ -77,7 +77,7 @@ class Mergesort extends Sortable {
 
 		// Stop if already sorted
 		// i.e, if biggest item in 1st half <= smallest item in second half
-		if (this.less(list[mid], list[mid+1], compareFn)) {
+		if (this.less(list, mid, mid+1, compareFn)) {
 			return;
 		}
 

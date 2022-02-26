@@ -1,23 +1,26 @@
 /**
- * Utility base class with common static functions used in other sorting algorithms or for testing
+ * Utility base class with common utility functions for Array-based sorting algorithms
  */
 
 class Sortable {
 
 	/**
-	 * Compare if `a` is less than `b` using a custom compare function (if provided)
-	 * @param {*} a
-	 * @param {*} b
+	 * Compare two elements in an array to check whether
+	 * the first element is smaller than the second element
+	 * using a custom compare function (if provided).
+	 * @param {!Array<*>} list The array of the elements to compare.
+	 * @param {*} i Index of first element.
+	 * @param {*} j Index of second element.
 	 * @param {function(*,*): number} compareFn The custom compare function.
-	 * @returns {Boolean} true, if `a` is less than `b`
+	 * @returns {Boolean} true, if the first element is less than the second element.
 	 */
-	static less(a, b, compareFn) {
+	static less(list, i, j, compareFn) {
 		compareFn = compareFn || function (a, b) {
 			return a < b ? -1 :
 				a > b ? 1 :
 					0;
 		}
-		return compareFn(a, b) < 0;
+		return compareFn(list[i], list[j]) < 0;
 	}
 
 
@@ -44,8 +47,8 @@ class Sortable {
 	 */
 	static isSubArraySorted(list, lo, hi, compareFn) {
 		for (let i = lo; i < hi; i++) {
-			if (this.less(list[i+1], list[i], compareFn)) {
-				return false;
+			if (this.less(list, i+1, i, compareFn)) {
+				return false;	// If next element is smaller, the array is not sorted
 			}
 		}
 		return true;

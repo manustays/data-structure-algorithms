@@ -19,7 +19,7 @@ class InsertionSort extends Sortable {
 	static insertionSort(list, lo, hi, compareFn) {
 		for (let i = lo + 1; i <= hi; i++) {
 			// Swap until item on the left of j larger than item at j...
-			for (let j = i; j > lo && this.less(list[j], list[j-1], compareFn); j--) {
+			for (let j = i; j > lo && this.less(list, j, j-1, compareFn); j--) {
 				this.exch(list, j, j-1);
 			}
 		}

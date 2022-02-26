@@ -25,14 +25,14 @@ class QuickSort extends Sortable {
 	 * @returns {number} Index of the median element
 	 */
 	static median3(list, i, j, k, compareFn) {
-		return (this.less(list[i], list[j], compareFn) ?
+		return (this.less(list, i, j, compareFn) ?
 			(
-				this.less(list[j], list[k], compareFn) ? j :
-				this.less(list[i], list[k], compareFn) ? k : i
+				this.less(list, j, k, compareFn) ? j :
+				this.less(list, i, k, compareFn) ? k : i
 			) :
 			(
-				this.less(list[k], list[j], compareFn) ? j :
-				this.less(list[k], list[i], compareFn) ? k : i
+				this.less(list, k, j, compareFn) ? j :
+				this.less(list, k, i, compareFn) ? k : i
 			)
 		);
 	}
@@ -59,7 +59,7 @@ class QuickSort extends Sortable {
 			j--;
 
 			// Find item on left to swap (first item larger than the partitioning item)
-			while (this.less(list[i], list[lo], compareFn)) {
+			while (this.less(list, i, lo, compareFn)) {
 				i++;
 				if (i === hi) {
 					break;
@@ -67,7 +67,7 @@ class QuickSort extends Sortable {
 			}
 
 			// Find item on right to swap (last item smaller than the partitioning item)
-			while (this.less(list[lo], list[j], compareFn)) {
+			while (this.less(list, lo, j, compareFn)) {
 				j--;
 				if (j === lo) {
 					break;
