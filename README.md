@@ -1,4 +1,4 @@
-# Data Structures & Algorithms
+# Data Structures & Algorithms [WIP]
 Data structure algorithm implementations for learning in various programming languages
 
 ## 🗃 Project Structure
