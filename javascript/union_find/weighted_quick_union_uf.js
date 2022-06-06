@@ -42,7 +42,10 @@ class WeightedQuickUnionUF {
 		}
 
 		while (i !== this.id_[i]) {
-			this.id_[i] = this.id_[this.id_[i]];	// One-pass path compression
+			// IMPROVEMENT #2: One-pass path compression (flattening of the tree).
+			// This keeps the tree completely flat for faster root finding.
+			this.id_[i] = this.id_[this.id_[i]];
+
 			i = this.id_[i];						// Goto root node
 		}
 		return i;
