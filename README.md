@@ -1,6 +1,22 @@
 # Data Structures & Algorithms [WIP]
 Data structure algorithm implementations for learning in various programming languages
 
+## 🗃 Project Index
+
+| Category    | Algorithm               | Javacsript | Java | Python |
+|-------------|-------------------------|------------|------|--------|
+| Union-Find  | Weighted Quick-Union UF | ✅          | ✅    |        |
+| Sort        | Knuth Shuffle           | ✅          |      |        |
+| Sort        | Insertion Sort          | ✅          |      |        |
+| Sort        | Mergesort               | ✅          |      |        |
+| Sort        | Quicksort               | ✅          |      |        |
+| Binary Heap | Priority Queue          | ✅          |      |        |
+| Binary Heap | Heapsort                | ✅          |      |        |
+| Linked List | Singly Linked List      | ✅          |      |        |
+| Tree        | BinaryTree              | ✅          |      |        |
+| Tree        | BinarySearchTree        | ✅          |      |        |
+
+
 ## 🗃 Project Structure
 - 📂 [**javascript/**](/javascript)
   - 📂 [**union_find/**](/javascript/union_find)
