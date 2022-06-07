@@ -11,6 +11,7 @@ public class test {
         uf.union(4, 6);
         uf.union(4, 7);
 
+		uf.print();
         System.out.println("3 & 5 connected? " + uf.connected(3, 5));
         System.out.println("3 & 6 connected? " + uf.connected(3, 6));
     }
