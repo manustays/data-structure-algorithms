@@ -14,6 +14,8 @@ package union_find.test;
 import sun.rmi.runtime.Log;
 import union_find.WeightedQuickUnionUF;
 
+// import union_find.test.Log;
+
 class SocialNetworkConnectivity {
 
 	/**
