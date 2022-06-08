@@ -1,6 +1,8 @@
-package union_find;
+package union_find.test;
 
-public class test {
+import union_find.WeightedQuickUnionUF;
+
+public class test_main {
     public static void main (String[] args) {
         WeightedQuickUnionUF uf = new WeightedQuickUnionUF(10);
         System.out.println("Created UF of size 10");
